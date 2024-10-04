@@ -1,0 +1,217 @@
+1. Como usuario registrado, quiero crear una cuenta en la plataforma, para poder acceder al sistema de reservas.
+   Criterios de aceptación:
+   El sistema debe permitir la creación de cuentas con correo electrónico y contraseña.
+   El usuario debe recibir un correo de confirmación al registrarse.
+   Deben validarse los datos antes de crear la cuenta (ej. correo único, contraseña segura).
+
+2. Como usuario registrado, quiero iniciar sesión en la plataforma, para poder gestionar mis reservas.
+   Criterios de aceptación:
+   Debe existir una página de inicio de sesión.
+   El usuario solo podrá acceder si ingresa credenciales válidas.
+
+3. Como usuario registrado, quiero ver las canchas disponibles (fútbol, tenis, básquet) para poder elegir cuál reservar.
+   Criterios de aceptación:
+   El sistema debe mostrar una lista de canchas con su disponibilidad.
+   El usuario puede filtrar por tipo de cancha (fútbol, tenis, básquet).
+   Se debe mostrar el estado de la cancha (disponible/no disponible).
+
+4. Como usuario registrado, quiero reservar una cancha en una fecha y hora específicas, para poder jugar en el centro deportivo.
+   Criterios de aceptación:
+   El usuario podrá seleccionar fecha, hora y cancha disponible.
+   La reserva se confirmará si está dentro de los horarios permitidos y la cancha está disponible.
+   El usuario debe recibir una confirmación de la reserva (en pantalla y por correo electrónico).
+
+5. Como usuario registrado, quiero cancelar una reserva.
+   Criterios de aceptación:
+   El sistema debe permitir cancelar la reserva y liberar la cancha para otros usuarios.
+
+6. Como administrador, quiero gestionar las reservas de los usuarios, para mantener el control del uso de las canchas.
+   Criterios de aceptación:
+   El administrador debe ver un listado de todas las reservas.
+   Debe poder filtrar las reservas por cancha, fecha y usuario.
+   Debe poder cancelar una reserva en caso de ser necesario.
+   //
+7. Como administrador, quiero agregar, editar o eliminar canchas del sistema, para mantener actualizada la disponibilidad de las instalaciones.
+   Criterios de aceptación:
+   El administrador puede crear nuevas canchas con tipo (fútbol, tenis, básquet), horarios disponibles y capacidad.
+   Puede editar la información de las canchas (estado de disponibilidad, mantenimiento).
+   Puede eliminar canchas no disponibles o inactivas.
+
+8. Como usuario registrado, quiero ver un historial de mis reservas pasadas, para poder tener un registro de las veces que he jugado.
+   Criterios de aceptación:
+   El sistema debe mostrar un historial de todas las reservas anteriores del usuario.
+   El historial debe incluir detalles como fecha, hora y tipo de cancha reservada.
+   //
+9. Como usuario, quiero recibir notificaciones sobre cambios en mis reservas (cancelaciones), para estar informado en todo momento.
+   Criterios de aceptación:
+   El usuario debe recibir notificaciones en tiempo real si se cancela su reserva.
+
+10. Como usuario, quiero ver los términos y condiciones del centro deportivo antes de confirmar una reserva, para saber las reglas y políticas del lugar.
+    Criterios de aceptación:
+    Debe existir una sección con los términos y condiciones.
+    El usuario debe confirmar haber leído los términos antes de completar una reserva.
+
+////////////////////////////////////////
+
+_User Story 1_: Como usuario registrado, quiero crear una cuenta en la plataforma.
+_Tareas_:
+
+        Crear base de datos de usuarios:
+
+        Definir el esquema de usuarios (nombre, correo, contraseña, etc.).
+        Implementar conexión a la base de datos
+        Diseñar formulario de registro:
+
+        Crear el formulario HTML para registro de usuarios (nombre, correo, contraseña).
+        Validar los campos en el frontend.
+        Implementar lógica de registro en el backend:
+
+        Crear una API o ruta para el registro de usuarios.
+        Validar que el correo no esté duplicado en la base de datos.
+        Cifrar la contraseña
+        Configurar el envío de correos de confirmación:
+
+        Implementar una función para enviar correos de verificación.
+        Incluir un token en el enlace de verificación.
+        Implementar sistema de confirmación de cuenta:
+
+        Crear una ruta que valide el token del correo de confirmación.
+        Cambiar el estado del usuario a "verificado" en la base de datos.
+
+_User Story 2_: Como usuario registrado, quiero iniciar sesión en la plataforma.
+_Tareas_:
+
+        Crear formulario de inicio de sesión:
+
+        Diseñar el formulario para ingresar correo y contraseña.
+        Implementar autenticación en el backend:
+
+        Crear una ruta para iniciar sesión (POST).
+        Validar las credenciales del usuario.
+        Comparar la contraseña cifrada con bcrypt.
+        Generar tokens de sesión (JWT):
+
+        Crear un token JWT en caso de que el login sea exitoso.
+        Configurar middleware de autenticación:
+
+        Crear un middleware para proteger rutas que requieran estar logueado.
+        Verificar los tokens en cada petición protegida.
+
+_User Story 3_: Como usuario registrado, quiero ver las canchas disponibles.
+_Tareas_:
+
+        Definir la estructura de las canchas en la base de datos:
+
+        Crear un esquema de cancha (nombre, tipo, disponibilidad, horarios).
+        Implementar API para obtener disponibilidad:
+
+        Crear una API que devuelva las canchas disponibles por tipo.
+        Permitir filtrar las canchas por fecha y tipo (fútbol, tenis, básquet).
+        Diseñar la vista de selección de canchas:
+
+        Crear una interfaz donde se muestren las canchas disponibles (cards, lista).
+        Implementar filtros para tipo de cancha y horario.
+        Conectar el frontend con la API de disponibilidad:
+
+        Usar Axios o Fetch para obtener los datos desde el frontend.
+        Renderizar la información de las canchas en la vista.
+
+_User Story 4_: Como usuario registrado, quiero reservar una cancha.
+_Tareas_:
+
+        Diseñar el formulario de reserva:
+
+        Crear un formulario donde se seleccione cancha, fecha y hora.
+        Crear API para realizar una reserva:
+
+        Crear una ruta para procesar la reserva y validarla.
+        Comprobar que la cancha esté disponible en la fecha y hora seleccionadas.
+        Actualizar la disponibilidad en la base de datos:
+
+        Marcar la cancha como reservada para la fecha y hora seleccionada.
+        Guardar los datos de la reserva en la base de datos.
+        Enviar confirmación de la reserva:
+
+        Enviar un correo electrónico confirmando la reserva.
+        Mostrar una confirmación visual en el frontend.
+
+_User Story 5_: Como usuario registrado, quiero modificar o cancelar una reserva.
+_Tareas_:
+
+        Diseñar la interfaz para gestionar reservas:
+
+        Crear una sección donde el usuario vea sus reservas activas.
+        Implementar API para modificar reservas:
+
+        Crear una ruta que permita cambiar la fecha y hora de una reserva.
+        Validar la nueva disponibilidad de la cancha antes de aplicar el cambio.
+        Implementar API para cancelar reservas:
+
+        Crear una ruta para eliminar la reserva.
+        Liberar la cancha en la base de datos.
+        Actualizar la vista de reservas tras la cancelación:
+
+        Actualizar dinámicamente la lista de reservas del usuario tras los cambios.
+
+_User Story 6_: Como administrador, quiero gestionar las reservas.
+_Tareas_:
+
+        Crear panel de administrador:
+
+        Diseñar una interfaz para el administrador que muestre todas las reservas.
+        Implementar API para obtener todas las reservas:
+
+        Crear una API que devuelva todas las reservas para ser gestionadas por el administrador.
+
+        Permitir al administrador cancelar reservas:
+
+        Crear botones de acción para cancelar reservas desde la interfaz.
+
+_User Story 7_: Como administrador, quiero gestionar canchas.
+_Tareas_:
+
+        Diseñar formulario de gestión de canchas:
+
+        Crear un formulario que permita agregar o editar canchas.
+        Implementar API para crear, editar y eliminar canchas:
+
+        Crear rutas para agregar nuevas canchas, modificar información existente o eliminarlas.
+        Conectar la interfaz de administración con la API:
+
+        Conectar el frontend del administrador con las APIs para gestionar canchas en tiempo real.
+
+_User Story 8_: Como usuario registrado, quiero ver mi historial de reservas pasadas.
+_Tareas_:
+
+        Crear API para obtener el historial de reservas:
+
+        Crear una API que devuelva las reservas pasadas del usuario.
+        Diseñar la vista del historial de reservas:
+
+        Crear una sección en la interfaz donde el usuario pueda ver su historial.
+        Conectar el historial de reservas con el frontend:
+
+        Usar Axios o Fetch para traer los datos del historial y mostrarlos en la interfaz.
+
+_User Story 9_: Como usuario, quiero recibir notificaciones sobre cambios en mis reservas.
+_Tareas_:
+
+        Implementar sistema de notificaciones:
+
+        Crear una función para enviar correos cuando se cancele una reserva.
+        Configurar notificaciones en el backend:
+
+        Integrar un servicio de correo electrónico.
+
+_User Story 10_: Como usuario, quiero ver los términos y condiciones del centro deportivo.
+_Tareas_:
+
+            Diseñar la página de términos y condiciones:
+
+            Crear una página estática donde se muestren los términos y condiciones.
+            Vincular la página de términos al proceso de reserva:
+
+            Incluir un checkbox que requiera que el usuario acepte los términos antes de confirmar la reserva.
+            Implementar funcionalidad de aceptación de términos:
+
+            Validar que el usuario haya aceptado los términos antes de procesar la reserva.
