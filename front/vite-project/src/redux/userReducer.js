@@ -38,6 +38,7 @@ export const cancelAppointment = createAsyncThunk(
         `http://localhost:3000/appointments/cancel/${appointmentId}`
       );
       dispatch(cancelUserAppointment(appointmentId));
+      return data;
     } catch (error) {
       return rejectWithValue(error);
     }

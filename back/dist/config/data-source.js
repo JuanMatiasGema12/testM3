@@ -15,7 +15,7 @@ exports.AppDataSource = new typeorm_1.DataSource({
     database: envs_1.DB_NAME,
     synchronize: envs_1.DB_SYNC,
     logging: envs_1.DB_LOGIN,
-    dropSchema: true,
+    //dropSchema: true,
     entities: ["src/entities/**/*.ts"],
     subscribers: [],
     migrations: [],
