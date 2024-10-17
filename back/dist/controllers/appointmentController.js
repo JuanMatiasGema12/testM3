@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cancelAppointmentController = exports.createAppointmentController = exports.getAppointmentByIdController = exports.getAppointmentsController = void 0;
 const appointmentService_1 = require("../services/appointmentService");
+const userController_1 = require("./userController");
 const getAppointmentsController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const appointments = yield (0, appointmentService_1.getAppointmentService)();
@@ -20,10 +21,7 @@ const getAppointmentsController = (req, res) => __awaiter(void 0, void 0, void 0
         });
     }
     catch (error) {
-        res.status(400).json({
-            message: "Hubo un error al obtener los turnos.",
-            details: error,
-        });
+        (0, userController_1.handleError)(error, res, "No se pudo obtener el listado de citas.");
     }
 });
 exports.getAppointmentsController = getAppointmentsController;
@@ -37,10 +35,7 @@ const getAppointmentByIdController = (req, res) => __awaiter(void 0, void 0, voi
         });
     }
     catch (error) {
-        res.status(400).json({
-            message: `No se pudo obtener el turno con el ID: ${id}`,
-            details: error,
-        });
+        (0, userController_1.handleError)(error, res, `No se pudo obtener el turno con el ID: ${id}`);
     }
 });
 exports.getAppointmentByIdController = getAppointmentByIdController;
@@ -53,26 +48,20 @@ const createAppointmentController = (req, res) => __awaiter(void 0, void 0, void
         });
     }
     catch (error) {
-        res.status(400).json({
-            message: "Hubo un error al registrar el turno.",
-            details: error,
-        });
+        (0, userController_1.handleError)(error, res, "No se pudo registrar el turno. Intentelo de nuevo.");
     }
 });
 exports.createAppointmentController = createAppointmentController;
 const cancelAppointmentController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = parseInt(req.params.id);
+    const { id } = req.params;
     try {
-        yield (0, appointmentService_1.cancelAppointmentByIdService)(id);
+        yield (0, appointmentService_1.cancelAppointmentByIdService)(Number(id));
         res.status(200).json({
             message: `Turno con ID: ${id} cancelado`,
         });
     }
     catch (error) {
-        res.status(400).json({
-            message: `No se pudo cancelar el turno con el ID: ${id}`,
-            details: error,
-        });
+        (0, userController_1.handleError)(error, res, `No se pudo cancelar el turno con el ID: ${id}`);
     }
 });
 exports.cancelAppointmentController = cancelAppointmentController;

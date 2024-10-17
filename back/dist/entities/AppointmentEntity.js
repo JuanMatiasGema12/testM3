@@ -25,11 +25,11 @@ __decorate([
     __metadata("design:type", Number)
 ], Appointment.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "date", nullable: false }),
     __metadata("design:type", Date)
 ], Appointment.prototype, "date", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "varchar", length: 5, nullable: false }),
     __metadata("design:type", String)
 ], Appointment.prototype, "time", void 0);
 __decorate([
@@ -42,6 +42,7 @@ __decorate([
         type: 'enum',
         enum: Status,
         default: Status.active,
+        nullable: false
     }),
     __metadata("design:type", String)
 ], Appointment.prototype, "status", void 0);

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUserController = exports.registerUserController = exports.getUserByIdController = exports.getUsersController = void 0;
+exports.loginUserController = exports.registerUserController = exports.getUserByIdController = exports.getUsersController = exports.handleError = void 0;
 const usersService_1 = require("../services/usersService");
 const handleError = (error, res, defaultMessage) => {
     const errorMessage = {
@@ -18,6 +18,7 @@ const handleError = (error, res, defaultMessage) => {
     };
     res.status(400).json(errorMessage);
 };
+exports.handleError = handleError;
 //Consultar sobre este detalle => (_req).
 const getUsersController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -28,7 +29,7 @@ const getUsersController = (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
     }
     catch (error) {
-        handleError(error, res, "No se pudo obtener el listado de usuarios.");
+        (0, exports.handleError)(error, res, "No se pudo obtener el listado de usuarios.");
     }
 });
 exports.getUsersController = getUsersController;
@@ -42,7 +43,7 @@ const getUserByIdController = (req, res) => __awaiter(void 0, void 0, void 0, fu
         });
     }
     catch (error) {
-        handleError(error, res, "No se pudo obtener el usuario con el ID ingresado.");
+        (0, exports.handleError)(error, res, "No se pudo obtener el usuario con el ID ingresado.");
     }
 });
 exports.getUserByIdController = getUserByIdController;
@@ -54,13 +55,12 @@ const registerUserController = (req, res) => __awaiter(void 0, void 0, void 0, f
         });
     }
     catch (error) {
-        handleError(error, res, "No se pudo realizar el registro del usuario. Intentelo nuevamente");
+        (0, exports.handleError)(error, res, "No se pudo realizar el registro del usuario. Intentelo nuevamente");
     }
 });
 exports.registerUserController = registerUserController;
 const loginUserController = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log("ESTE ES EL REQ.BODY: ", req.body);
         const loginUser = yield (0, usersService_1.loginUserService)(req.body);
         res.status(200).json({
             message: "El usuario se logueó con exito.",
@@ -68,7 +68,7 @@ const loginUserController = (req, res) => __awaiter(void 0, void 0, void 0, func
         });
     }
     catch (error) {
-        handleError(error, res, "No se pudo realizar el login del usuario. Intentelo nuevamente");
+        (0, exports.handleError)(error, res, "No se pudo realizar el login del usuario. Intentelo nuevamente");
     }
 });
 exports.loginUserController = loginUserController;

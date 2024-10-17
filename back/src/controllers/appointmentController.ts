@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { AppointmentRegisterDTO } from "../dto/AppointmentDTO";
 import { getAppointmentByIdService, getAppointmentService, registerAppointmentService, cancelAppointmentByIdService } from "../services/appointmentService";
+import { handleError } from "./userController";
 
 export const getAppointmentsController = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -10,10 +11,7 @@ export const getAppointmentsController = async (req: Request, res: Response): Pr
             data: appointments,
         });
     } catch (error) {
-        res.status(400).json({
-            message: "Hubo un error al obtener los turnos.",
-            details: error,
-        });
+        handleError(error, res, "No se pudo obtener el listado de citas.")
     }
 };
 
@@ -26,10 +24,7 @@ export const getAppointmentByIdController = async (req: Request<{ id: string }>,
             data: appointment,
         });
     } catch (error) {
-        res.status(400).json({
-            message: `No se pudo obtener el turno con el ID: ${id}`,
-            details: error,
-        });
+        handleError(error, res, `No se pudo obtener el turno con el ID: ${id}`)
     }
 };
 
@@ -41,24 +36,18 @@ export const createAppointmentController = async (req: Request<unknown, unknown,
             data: newAppointment,
         });
     } catch (error) {
-        res.status(400).json({
-            message: "Hubo un error al registrar el turno.",
-            details: error,
-        });
+        handleError(error, res, "No se pudo registrar el turno. Intentelo de nuevo.")
     }
 };
 
 export const cancelAppointmentController = async (req: Request<{ id: string }>, res: Response): Promise<void> => {
-    const id = parseInt(req.params.id); 
+    const {id} = req.params; 
     try {
-        await cancelAppointmentByIdService(id); 
+        await cancelAppointmentByIdService(Number(id)); 
         res.status(200).json({
             message: `Turno con ID: ${id} cancelado`,
         });
     } catch (error) {
-        res.status(400).json({
-            message: `No se pudo cancelar el turno con el ID: ${id}`,
-            details: error,
-        });
+        handleError(error, res, `No se pudo cancelar el turno con el ID: ${id}`)
     }
 };

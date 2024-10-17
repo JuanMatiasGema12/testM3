@@ -29,18 +29,14 @@ const getCredentialService = (entityManager, username, password) => __awaiter(vo
 });
 exports.getCredentialService = getCredentialService;
 const checkUserData = (username, password) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("ESTE ES EL USERNAME: ", username);
     const usernameFound = yield data_source_1.CredentialModel.findOne({ where: { username } });
-    console.log("ESTE ES EL USERFOUND: ", usernameFound);
     if (!usernameFound) {
         throw new Error('El usuario o la contraseña son incorrectos.');
     }
-    console.log("PASÉ EL IF DEL USERNAME.");
     const passwordCompared = yield (0, passwordHash_1.comparePassword)(password, usernameFound.password);
     if (!passwordCompared) {
         throw new Error('El usuario o la contraseña son incorrectos.');
     }
-    console.log("PASÉ EL IF DE LAS PASSWORDS.");
     return usernameFound.credentialId;
 });
 exports.checkUserData = checkUserData;

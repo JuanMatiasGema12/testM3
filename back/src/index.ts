@@ -6,7 +6,7 @@ import { PORT } from "./config/envs";
 AppDataSource.initialize()
     .then(res => {
         console.log("Conexion a la BDD realizada con éxito.")
-        app.listen(() => {
+        app.listen(PORT, () => {
             console.log(`Server listening on port: ${PORT}`)
         })
     })

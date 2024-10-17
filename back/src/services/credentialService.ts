@@ -26,14 +26,11 @@ export const getCredentialService = async (entityManager: EntityManager ,usernam
 };
 
 export const checkUserData = async (username: string, password: string): Promise<number> => {
-    console.log("ESTE ES EL USERNAME: ", username)
     const usernameFound = await CredentialModel.findOne({ where: { username} });
-    console.log("ESTE ES EL USERFOUND: ", usernameFound)
     
     if (!usernameFound) {
         throw new Error('El usuario o la contraseña son incorrectos.');
     }
-    console.log("PASÉ EL IF DEL USERNAME.")
 
 
     const passwordCompared = await comparePassword(password, usernameFound.password)
@@ -41,7 +38,6 @@ export const checkUserData = async (username: string, password: string): Promise
     if (!passwordCompared) {
         throw new Error('El usuario o la contraseña son incorrectos.');
     }
-    console.log("PASÉ EL IF DE LAS PASSWORDS.")
 
     return usernameFound.credentialId;
 };

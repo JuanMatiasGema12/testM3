@@ -5,9 +5,9 @@ export class Credential {
   @PrimaryGeneratedColumn()
   credentialId: number;
 
-  @Column({unique: true})
+  @Column({nullable:false, unique: true})
   username: string;
 
-  @Column()
+  @Column({nullable:false})
   password: string;
 }

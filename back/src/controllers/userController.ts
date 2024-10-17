@@ -6,7 +6,7 @@ import { User } from "../entities/UserEntity";
 
 
 
-const handleError: ( error: unknown, res: Response, defaultMessage: string) => void  = (error: unknown, res: Response, defaultMessage: string) =>{
+export const handleError: ( error: unknown, res: Response, defaultMessage: string) => void  = (error: unknown, res: Response, defaultMessage: string) =>{
     const errorMessage: ErrorRespone = {
         message: defaultMessage,
         details: error instanceof Error ? error.message : "Error desconocido"
@@ -53,7 +53,6 @@ export const registerUserController = async (req: Request< unknown, unknown, Use
 
 export const loginUserController = async (req: Request< unknown, unknown, loginUserDto>, res: Response): Promise<void>=> {
     try {
-        console.log("ESTE ES EL REQ.BODY: ",req.body)
         const loginUser: User = await loginUserService(req.body)
         res.status(200).json({
              message: "El usuario se logueó con exito.",

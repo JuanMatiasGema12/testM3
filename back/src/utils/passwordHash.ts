@@ -1,9 +1,8 @@
 
 import bcrypt from 'bcrypt';
 
-// Función para hashear una contraseña
 export async function hashPassword(plainPassword: string): Promise<string> {
-  const saltRounds = 10; // Número de veces que se aplica el algoritmo de hashing
+  const saltRounds = 10; 
   const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
   return hashedPassword;
 }

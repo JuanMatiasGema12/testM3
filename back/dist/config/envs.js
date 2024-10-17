@@ -1,5 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PORT = void 0;
+exports.DB_LOGIN = exports.DB_SYNC = exports.DB_NAME = exports.DB_USERNAME = exports.DB_PORT = exports.DB_HOST = exports.PASSWORD_DB = exports.PORT = void 0;
 require("dotenv/config");
-exports.PORT = process.env.PORT;
+exports.PORT = process.env.PORT ? Number.parseInt(process.env.PORT) : 3001;
+exports.PASSWORD_DB = process.env.PASSWORD_DB ? process.env.PASSWORD_DB : "admin";
+exports.DB_HOST = process.env.DB_HOST ? process.env.DB_HOST : "localhost";
+exports.DB_PORT = process.env.DB_PORT ? Number(process.env.DB_PORT) : 5432;
+exports.DB_USERNAME = process.env.DB_USERNAME ? process.env.DB_USERNAME : "postgres";
+exports.DB_NAME = process.env.DB_NAME ? process.env.DB_NAME : "turnos";
+exports.DB_SYNC = process.env.DB_SYNC ? process.env.DB_SYNC.toLowerCase() === 'true' : true;
+exports.DB_LOGIN = process.env.DB_LOGIN ? process.env.DB_LOGIN.toLowerCase() === 'true' : true;

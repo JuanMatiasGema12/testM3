@@ -19,11 +19,11 @@ __decorate([
     __metadata("design:type", Number)
 ], Credential.prototype, "credentialId", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ unique: true }),
+    (0, typeorm_1.Column)({ nullable: false, unique: true }),
     __metadata("design:type", String)
 ], Credential.prototype, "username", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: false }),
     __metadata("design:type", String)
 ], Credential.prototype, "password", void 0);
 exports.Credential = Credential = __decorate([

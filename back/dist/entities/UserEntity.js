@@ -22,20 +22,27 @@ __decorate([
 ], User.prototype, "id", void 0);
 __decorate([
     (0, typeorm_1.Column)({
-        length: 100
+        type: "varchar",
+        length: 100,
+        nullable: false
     }),
     __metadata("design:type", String)
 ], User.prototype, "name", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ unique: true }),
+    (0, typeorm_1.Column)({
+        type: "varchar",
+        length: 100,
+        unique: true,
+        nullable: false
+    }),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ type: "date", nullable: false }),
     __metadata("design:type", Date)
 ], User.prototype, "birthdate", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: 'integer', unique: true }),
+    (0, typeorm_1.Column)({ type: 'integer', unique: true, nullable: false }),
     __metadata("design:type", Number)
 ], User.prototype, "nDni", void 0);
 __decorate([

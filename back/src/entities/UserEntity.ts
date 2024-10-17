@@ -13,17 +13,24 @@ export class User {
     id: number;
 
     @Column({
-        length: 100
+        type: "varchar",
+        length: 100,
+        nullable: false
     })
     name: string;
 
-    @Column({unique: true})
+    @Column({
+        type: "varchar",
+        length: 100,
+        unique: true,
+        nullable:false
+    })
     email: string;
 
-    @Column()
+    @Column({type:"date", nullable:false})
     birthdate: Date;
 
-    @Column({type: 'integer', unique: true})
+    @Column({type: 'integer', unique: true, nullable:false})
     nDni: number;
 
     @OneToMany(()=>Appointment ,(appointments)=> appointments.user)

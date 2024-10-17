@@ -15,10 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.hashPassword = hashPassword;
 exports.comparePassword = comparePassword;
 const bcrypt_1 = __importDefault(require("bcrypt"));
-// Función para hashear una contraseña
 function hashPassword(plainPassword) {
     return __awaiter(this, void 0, void 0, function* () {
-        const saltRounds = 10; // Número de veces que se aplica el algoritmo de hashing
+        const saltRounds = 10;
         const hashedPassword = yield bcrypt_1.default.hash(plainPassword, saltRounds);
         return hashedPassword;
     });

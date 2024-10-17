@@ -11,10 +11,10 @@ export class Appointment {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({type: "date", nullable:false})
   date: Date;
 
-  @Column()
+  @Column({type: "varchar", length: 5, nullable:false})
   time: string;
 
   @ManyToOne(() => User, user => user.appointments)
@@ -25,6 +25,7 @@ export class Appointment {
     type: 'enum',
     enum: Status,
     default: Status.active,
+    nullable:false
   })
   status: Status;
 }

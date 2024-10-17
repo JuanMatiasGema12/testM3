@@ -3,7 +3,7 @@ import {loginUserDto, UserRegisterDto} from "../dto/UserDTO"
 import {checkUserData, getCredentialService } from "./credentialService"
 import { AppDataSource, UserModel } from "../config/data-source"
 import { User } from "../entities/UserEntity"
-import { Credential } from "../entities/CredentialEntity"
+import userRepository from "../repositories/UserRepository"
 
 export const getUsersService = async (): Promise<User[]> => {
 
@@ -13,21 +13,40 @@ export const getUsersService = async (): Promise<User[]> => {
 
 
 export const getUserByIdService = async (id: number): Promise<User> => {
-    const userFound = await UserModel.findOne({ where: {id}})
+    const userFound = await UserModel.findOne({ where: {id}, relations: ['appointments']})
 
     if (!userFound) {
         throw new Error (`El usuario con el id: ${id} no fue encontrado.`)
     }else return userFound
 };
 
-export const registerUserService = async (userData:UserRegisterDto): Promise<void> => {
-
-    AppDataSource.transaction(async (entityManager) => {
-
-        const UserCredentials: Credential = await getCredentialService(entityManager, userData.username, userData.password);
-        console.log(UserCredentials)
+export const registerUserService = async (userData:UserRegisterDto): Promise<{message: string, newUser: User | void}> => {
     
-        const newUser: User = UserModel.create({
+
+    const userFoundEmail = await userRepository.findOne({
+        where: {
+            email: userData.email,
+        }
+    })
+    if (userFoundEmail) {
+        throw new Error("Ya existe un usuario registrado con este email.")
+    }
+    
+    const userFoundDni = await userRepository.findOne({
+        where: {
+            nDni: userData.nDni,
+        }
+    })
+    if (userFoundDni) {
+        throw new Error("Ya existe un usuario registrado con este DNI.")
+    }
+
+
+
+    const result = await AppDataSource.transaction(async (entityManager) => {
+        const UserCredentials = await getCredentialService(entityManager, userData.username, userData.password);
+    
+        const newUser = entityManager.create(User,{
             name: userData.name,
             email: userData.email,
             birthdate: new Date(userData.birthdate),
@@ -35,26 +54,29 @@ export const registerUserService = async (userData:UserRegisterDto): Promise<voi
             credential: UserCredentials
         })
         await entityManager.save(newUser)
-        console.log(newUser)
     })
+    return{
+        message: "Usuario creado con exito.",
+        newUser: result
+}
+
+
 }
 
 export const loginUserService = async (loginData: loginUserDto): Promise<User> => {
-    console.log("ESTE ES EL LOGINDATA.USERNAME: ", loginData.userName)
     const credential = await checkUserData(loginData.userName, loginData.password);
     
     const userFound = await UserModel.findOne({
         where: {
             credential: { credentialId: credential}
         },
-        relations: ['credential']
+        relations: ["appointments"]
     });
 
     if (!userFound) {
         throw new Error("El usuario o la contraseña son incorrectos.");
     }
 
-    console.log(userFound)
     return userFound;
 };
 
