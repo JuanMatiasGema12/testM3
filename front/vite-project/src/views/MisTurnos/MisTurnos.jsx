@@ -1,25 +1,22 @@
 import { useEffect, useState } from 'react';
 import Styles from "./MisTurnos.module.css";
-import TurnoCard from '../components/AppointmentCard';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAppointments } from '../redux/userReducer';
+import TurnoCard from '../../components/AppointmentCard/AppointmentCard';
+import { useUser } from "../../context/UserContext";
 
 const MisTurnos = () => {
-  const [loading, setLoading] = useState(true); 
-  const userAppointments = useSelector((state) => state.userAppointments);
-  const userId = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  const { userAppointments, userId, getAppointments } = useUser();
 
   useEffect(() => {
-    if (userId) {
-      dispatch(getAppointments(userId));
-    }
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1500); 
+    const fetchAppointments = async () => {
+      if (userId && loading) { 
+        await getAppointments(userId);
+        setLoading(false);
+      }
+    };
 
-    return () => clearTimeout(timer);
-  }, [dispatch, userId]);
+    fetchAppointments();
+  }, [userId, getAppointments, loading]);
 
   if (loading) {
     return (
@@ -33,7 +30,7 @@ const MisTurnos = () => {
     <div className={Styles.content}>
       <div className={Styles.container}>
         <div className={Styles.cardsContainer}>
-          {userAppointments.length > 0 ? (
+          {userAppointments && userAppointments.length > 0 ? (
             userAppointments.map(turno => (
               <TurnoCard turno={turno} key={turno.id} />
             ))

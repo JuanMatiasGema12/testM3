@@ -1,21 +1,19 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useUser } from '../../context/UserContext';
 import Styles from './NavBar.module.css'; 
-import userLogo from '../images/userLogo.png';
-import sonrisa from '../images/sonrisa.png';
-import { logoutUser } from '../redux/userReducer'; 
+import userLogo from '../../images/userLogo.png';
+import sonrisa from '../../images/sonrisa.png';
 
 const NavBar = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const userId = useSelector((state) => state.user);
+    const { userId, logoutUser } = useUser(); 
 
     const handleLoginClick = () => {
         navigate('/Login');
     };
 
     const handleLogoutClick = () => {
-        dispatch(logoutUser());
+        logoutUser();
         navigate('/');
     };
 

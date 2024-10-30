@@ -1,15 +1,13 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { validateAppointmentForm } from '../helpers/validate';
-import { addAppointment } from '../redux/userReducer';
+import { validateAppointmentForm } from '../../helpers/validate';
+import { useUser } from '../../context/UserContext';
 import Swal from 'sweetalert2';
 import Styles from './AgendarTurno.module.css';
 
 const AgendarTurno = () => {
-    const dispatch = useDispatch();
-    const userId = useSelector((state) => state.user);
+    const { addAppointment, userId } = useUser();
     const navigate = useNavigate();
 
     const formik = useFormik({
@@ -23,7 +21,7 @@ const AgendarTurno = () => {
                 const data = {
                     ...values,
                     userId: userId
-                }
+                };
                 const confirmed = await Swal.fire({
                     title: '¿Confirmar Turno?',
                     text: `Fecha: ${values.date}\nHora: ${values.time}`,
@@ -34,7 +32,8 @@ const AgendarTurno = () => {
                 });
 
                 if (confirmed.isConfirmed) {
-                    await dispatch(addAppointment(data)).unwrap();
+                    await addAppointment(data);
+                    
                     await Swal.fire({
                         icon: 'success',
                         title: 'Turno confirmado',
@@ -47,14 +46,13 @@ const AgendarTurno = () => {
                 Swal.fire({
                     icon: "error",
                     title: "Error",
-                    text: error.response.data.details,
+                    text: error.response?.data?.details || error.message || "Ha ocurrido un error.",
                 });
             }
         },
     });
 
-    const { errors, touched, values } = formik;
-
+    const { errors, touched } = formik;
     const isButtonDisabled = Object.keys(errors).length > 0;
 
     return (
@@ -102,3 +100,4 @@ const AgendarTurno = () => {
 };
 
 export default AgendarTurno;
+

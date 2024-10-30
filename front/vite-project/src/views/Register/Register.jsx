@@ -1,14 +1,13 @@
 import { useFormik } from "formik";
-import { validateRegisterForm } from "../helpers/validate";
+import { validateRegisterForm } from "../../helpers/validate";
 import Styles from './Register.module.css';
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2"
-import{ useDispatch}from "react-redux"
-import { registerUser } from "../redux/userReducer";
+import Swal from "sweetalert2";
+import { useUser } from "../../context/UserContext";
 
 const Register = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch()
+    const { registerUser } = useUser();
 
     const formik = useFormik({
         initialValues: {
@@ -22,12 +21,12 @@ const Register = () => {
         validate: validateRegisterForm,
         onSubmit: async (values) => {
             try {
-                await dispatch(registerUser(values)).unwrap()
-                navigate("/login")
+                await registerUser(values);
+                navigate("/login");
                 Swal.fire({
                     icon: "success",
-                    title: "User registered succesfully"
-                })
+                    title: "User registered successfully"
+                });
             } catch (err) {
                 if (err.response && err.response.data) {
                     Swal.fire({
@@ -134,7 +133,6 @@ const Register = () => {
                 ) : null}
             </div>
 
-
             <div className={Styles.inputGroup}>
                 <label htmlFor="password" className={Styles.label}>Password: </label>
                 <input 
@@ -148,7 +146,7 @@ const Register = () => {
                     }}
                     onBlur={formik.handleBlur}
                     value={formik.values.password}
-                    className={formik.errors.password  ? Styles.inputError : Styles.input}
+                    className={formik.errors.password ? Styles.inputError : Styles.input}
                 />
                 {formik.errors.password ? (
                     <span className={Styles.errorMessage}>{formik.errors.password}</span>
