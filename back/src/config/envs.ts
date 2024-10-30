@@ -7,3 +7,9 @@ export const DB_USERNAME :string|undefined = process.env.DB_USERNAME ? process.e
 export const DB_NAME :string|undefined = process.env.DB_NAME ? process.env.DB_NAME :"turnos";
 export const DB_SYNC :boolean|undefined = process.env.DB_SYNC ? process.env.DB_SYNC.toLowerCase() === 'true' : true;
 export const DB_LOGIN  :boolean|undefined = process.env.DB_LOGIN  ? process.env.DB_LOGIN.toLowerCase() === 'true'  :true;
+export const ENTITIES_PATH: string = process.env.ENTITIES_PATH || "src/entities/**/*.ts";
+export const SUBSCRIBERS_PATH: string = process.env.SUBSCRIBERS_PATH || "src/subscribers/**/*.ts";
+export const MIGRATIONS_PATH: string = process.env.MIGRATIONS_PATH || "src/migrations/**/*.ts";
+
+
+
