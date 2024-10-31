@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DB_LOGIN = exports.DB_SYNC = exports.DB_NAME = exports.DB_USERNAME = exports.DB_PORT = exports.DB_HOST = exports.PASSWORD_DB = exports.PORT = void 0;
+exports.MIGRATIONS_PATH = exports.SUBSCRIBERS_PATH = exports.ENTITIES_PATH = exports.DB_LOGIN = exports.DB_SYNC = exports.DB_NAME = exports.DB_USERNAME = exports.DB_PORT = exports.DB_HOST = exports.PASSWORD_DB = exports.PORT = void 0;
 require("dotenv/config");
 exports.PORT = process.env.PORT ? Number.parseInt(process.env.PORT) : 3001;
 exports.PASSWORD_DB = process.env.PASSWORD_DB ? process.env.PASSWORD_DB : "admin";
@@ -10,3 +10,6 @@ exports.DB_USERNAME = process.env.DB_USERNAME ? process.env.DB_USERNAME : "postg
 exports.DB_NAME = process.env.DB_NAME ? process.env.DB_NAME : "turnos";
 exports.DB_SYNC = process.env.DB_SYNC ? process.env.DB_SYNC.toLowerCase() === 'true' : true;
 exports.DB_LOGIN = process.env.DB_LOGIN ? process.env.DB_LOGIN.toLowerCase() === 'true' : true;
+exports.ENTITIES_PATH = process.env.ENTITIES_PATH || "src/entities/**/*.ts";
+exports.SUBSCRIBERS_PATH = process.env.SUBSCRIBERS_PATH || "src/subscribers/**/*.ts";
+exports.MIGRATIONS_PATH = process.env.MIGRATIONS_PATH || "src/migrations/**/*.ts";

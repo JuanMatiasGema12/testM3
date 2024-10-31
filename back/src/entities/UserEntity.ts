@@ -1,6 +1,3 @@
-
-
-
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinColumn } from 'typeorm';
 import { Appointment } from './AppointmentEntity';
 import { Credential } from './CredentialEntity';

@@ -15,10 +15,9 @@ exports.AppDataSource = new typeorm_1.DataSource({
     database: envs_1.DB_NAME,
     synchronize: envs_1.DB_SYNC,
     logging: envs_1.DB_LOGIN,
-    //dropSchema: true,
-    entities: ["src/entities/**/*.ts"],
-    subscribers: [],
-    migrations: [],
+    entities: [envs_1.ENTITIES_PATH],
+    subscribers: [envs_1.SUBSCRIBERS_PATH],
+    migrations: [envs_1.MIGRATIONS_PATH],
 });
 exports.UserModel = exports.AppDataSource.getRepository(UserEntity_1.User);
 exports.CredentialModel = exports.AppDataSource.getRepository(CredentialEntity_1.Credential);

@@ -1,4 +1,3 @@
-
 import { User } from "../entities/UserEntity"
 import { Appointment } from "../entities/AppointmentEntity"
 import { Credential } from "../entities/CredentialEntity"
